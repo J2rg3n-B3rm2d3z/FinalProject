@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mfrg_item1">
+
+    <fragment
+        android:id="@+id/mfrg_item1"
+        android:name="com.laboratorios.finalproyect.views.fragments.Item1Fragment"
+        android:label="fragment_item1"
+        tools:layout="@layout/fragment_item1" >
+        <action
+            android:id="@+id/action_mfrg_item1_to_mfrg_item2"
+            app:destination="@id/mfrg_item2" />
+    </fragment>
+    <fragment
+        android:id="@+id/mfrg_item2"
+        android:name="com.laboratorios.finalproyect.views.fragments.Item2Fragment"
+        android:label="fragment_item2"
+        tools:layout="@layout/fragment_item2" >
+        <action
+            android:id="@+id/action_mfrg_item2_to_mfrg_item3"
+            app:destination="@id/mfrg_item3" />
+    </fragment>
+    <fragment
+        android:id="@+id/mfrg_item3"
+        android:name="com.laboratorios.finalproyect.views.fragments.Item3Fragment"
+        android:label="fragment_item3"
+        tools:layout="@layout/fragment_item3" >
+        <action
+            android:id="@+id/action_mfrg_item3_to_mfrg_item4"
+            app:destination="@id/mfrg_item4" />
+    </fragment>
+    <fragment
+        android:id="@+id/mfrg_item4"
+        android:name="com.laboratorios.finalproyect.views.fragments.Item4Fragment"
+        android:label="fragment_item4"
+        tools:layout="@layout/fragment_item4" />
+</navigation>
