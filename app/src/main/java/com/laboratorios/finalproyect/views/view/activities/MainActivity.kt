@@ -1,4 +1,4 @@
-package com.laboratorios.finalproyect.views.activities
+package com.laboratorios.finalproyect.views.view.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,11 +14,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //Setup Main Activity
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
         setupNavigation()
     }
+
 
     private fun setupNavigation()
     {

@@ -1,4 +1,4 @@
-package com.laboratorios.finalproyect.views.fragments
+package com.laboratorios.finalproyect.views.view.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
