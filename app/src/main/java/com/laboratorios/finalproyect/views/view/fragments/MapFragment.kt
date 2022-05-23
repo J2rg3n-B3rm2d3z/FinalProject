@@ -6,24 +6,38 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.location.Location
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.gms.maps.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.laboratorios.finalproyect.R
 import com.laboratorios.finalproyect.databinding.FragmentMapBinding
 import com.laboratorios.finalproyect.views.models.Cashier
 import com.laboratorios.finalproyect.views.viewmodel.CashierViewModel
-import java.util.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import kotlin.collections.ArrayList
 
-class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListener{
+class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListener,
+    GoogleMap.OnMyLocationClickListener,GoogleMap.OnInfoWindowClickListener{
+
+    //Binding
 
     private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
@@ -31,14 +45,19 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
     //Get Context and Google maps
 
     private lateinit var thisContext : Context
-    private lateinit var gogleMap: GoogleMap
+    private lateinit var thisGoogleMap: GoogleMap
 
-    //Get ViewModel and List
+    //Get ViewModel
 
     private lateinit var cashierViewModel: CashierViewModel
+
+    //Lists
+
+    private val listMarkerId:ArrayList<MarkerAndId> = ArrayList()
     private val listCashiers:ArrayList<Cashier> = ArrayList()
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,10 +78,17 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
             listCashiers.addAll(it)
         }
 
+        //validate if connected to internet
+
+        val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+        val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
+        if(!isConnected)
+            Toast.makeText(thisContext, "You cannot complete this action without internet",
+                Toast.LENGTH_LONG).show()
 
         return view
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -78,8 +104,10 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+
         //Values Declaration
-        gogleMap = googleMap
+
+        thisGoogleMap = googleMap //get the item
 
         if (ActivityCompat.checkSelfPermission(
                 thisContext,
@@ -92,15 +120,17 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
             return
         }
 
-        gogleMap.isMyLocationEnabled=true //Get Location
+        thisGoogleMap.isMyLocationEnabled=true //Put my ubication
 
         val zoom = 16f
+        //should modification Put a middle camera into all points
         val centerMap = LatLng(listCashiers[0].Latitude, listCashiers[0].Longitude)
-        //Get a middle camera into all points
 
         //Setup
 
-        gogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(centerMap, zoom))
+        thisGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(centerMap, zoom))
+
+        //for each cashier in the list
 
         for (i in 0 until listCashiers.size) {
 
@@ -109,26 +139,53 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
             markerOptions.position(centerMark)
             markerOptions.title(listCashiers[i].Title)
 
-            val bitmapDraw = context?.applicationContext?.let {
-                ContextCompat.getDrawable(
-                    it,
-                    R.drawable.ic_localizacion
-                )
-            } as BitmapDrawable
-            val smallMarker = Bitmap.createScaledBitmap(bitmapDraw.bitmap, 100, 100, false)
-            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+            var bitmapDraw:BitmapDrawable
+            var snippet:String
 
-            val snippet = String.format(Locale.getDefault(), "Lat: %1$.5f, Long: %2$.5f",
-                listCashiers[i].Latitude, listCashiers[i].Longitude)
+            //if the cashier have money
 
-            markerOptions.snippet(snippet)
+            if(listCashiers[i].Money) {
 
-            googleMap.addMarker(markerOptions)
+                bitmapDraw = context?.applicationContext?.let {
+                    ContextCompat.getDrawable(
+                        it,
+                        R.drawable.ic_localizacion_g
+                    )
+                } as BitmapDrawable
+
+                snippet = listCashiers[i].Date + " Not empty"
+
+            }
+            else{
+
+                bitmapDraw = context?.applicationContext?.let {
+                    ContextCompat.getDrawable(
+                        it,
+                        R.drawable.ic_localizacion_r
+                    )
+                } as BitmapDrawable
+
+                snippet = listCashiers[i].Date + " Empty"
+            }
+
+            val smallMarker = Bitmap.createScaledBitmap(bitmapDraw.bitmap, 100,
+                100, false)
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker))//Set icon
+
+            markerOptions.snippet(snippet)//this is the windows information
+
+            googleMap.addMarker(markerOptions)?.let { MarkerAndId(it,i) } ?.let { listMarkerId.add(it) }
+            //add the marker and the Id item-cashier in de listMarkerId to get a connexion
+
         }
 
-        gogleMap.setOnMarkerClickListener(this)
-        //---------------
-        gogleMap.setMapStyle(
+        //Listeners
+        thisGoogleMap.setOnMarkerClickListener(this)
+        thisGoogleMap.setOnMyLocationClickListener(this)
+        thisGoogleMap.setOnInfoWindowClickListener(this)
+
+        //json Styles
+        thisGoogleMap.setMapStyle(
             MapStyleOptions.loadRawResourceStyle(
                 requireContext(),
                 R.raw.map_style
@@ -137,15 +194,94 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
     }
 
-    //When click in a marker
-
     override fun onMarkerClick(googleMap: Marker): Boolean {
-        val zoom = 13f
-        gogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(googleMap.position,zoom))
+        //Show info windows and center the camera in the marker
+
+        thisGoogleMap.animateCamera(CameraUpdateFactory.newLatLng(googleMap.position))
         googleMap.showInfoWindow()
+
         return true
     }
 
+    override fun onMyLocationClick(location: Location) {
+        //Default Location
+        Toast.makeText(thisContext,"Stay in ${location.latitude}, ${location.longitude}",
+            Toast.LENGTH_LONG).show()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onInfoWindowClick(googleMap: Marker) {
+
+        //Change the state of Cashier to Empty
+
+        val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+        val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
+
+        //if connected to internet
+
+        if(isConnected){
+
+            val builder = AlertDialog.Builder(thisContext)
+            builder.setTitle("Is empty?")
+                .setMessage("Are you sure you want to change the status to empty?")
+                .setPositiveButton("Yes") { dialogInterface, it ->
+
+                    for (i in listMarkerId) {
+
+                        if (i.marker == googleMap) {
+
+                            if (listCashiers[i.id].Money) {
+
+                                val bitmapDraw = context?.applicationContext?.let {
+                                    ContextCompat.getDrawable(
+                                        it,
+                                        R.drawable.ic_localizacion_r
+                                    )
+                                } as BitmapDrawable
+
+                                val current = LocalDateTime.now()
+                                val formatter = DateTimeFormatter.ofPattern("E dd-MM HH:mm:ss")
+                                val formatted = current.format(formatter)
+
+                                val snippet = "$formatted Empty"
+
+                                val smallMarker =
+                                    Bitmap.createScaledBitmap(bitmapDraw.bitmap,
+                                        100, 100, false)
+
+                                googleMap.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                                googleMap.snippet = snippet
 
 
+                                listCashiers[i.id].Money = false
+                                listCashiers[i.id].Date = formatted
+
+                                Toast.makeText(thisContext, "Status changed", Toast.LENGTH_LONG)
+                                    .show()
+
+                            } else {
+                                Toast.makeText(
+                                    thisContext,
+                                    "The cashier is already empty",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+
+                            break
+                        }
+                    }
+                }
+                .setNegativeButton("No") { dialogInterface, it -> }
+                .setCancelable(false).show()
+        }
+        else{
+            Toast.makeText(thisContext, "You cannot complete this action without internet",
+                Toast.LENGTH_LONG).show()
+        }
+    }
 }
+
+//Dataclass to use in the connection with Cashiers to Marker
+
+data class MarkerAndId(val marker: Marker, val id: Int)

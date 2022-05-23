@@ -2,6 +2,7 @@ package com.laboratorios.finalproyect.views.view.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -17,10 +18,10 @@ class MainActivity : AppCompatActivity() {
         //Setup Main Activity
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
+        Toast.makeText(this,"You can activate your GPS", Toast.LENGTH_LONG).show()
         setContentView(view)
         setupNavigation()
     }
-
 
     private fun setupNavigation()
     {
@@ -30,3 +31,11 @@ class MainActivity : AppCompatActivity() {
             Navigation.findNavController(this, R.id.frg_nav))
     }
 }
+
+
+/* Some notes
+
+    Validate if connected to the network at moment open the app and get de data in the database
+
+
+ */

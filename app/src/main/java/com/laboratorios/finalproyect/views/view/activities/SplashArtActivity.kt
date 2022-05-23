@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -25,7 +24,7 @@ class SplashArtActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_art)
 
-        //animation Splash Screen
+        //Animation Splash Screen
 
         val animlogo = AnimationUtils.loadAnimation(this, R.anim.animation)
         val imgLogo: ImageView = findViewById(R.id.imgLogo)
@@ -39,14 +38,18 @@ class SplashArtActivity : AppCompatActivity() {
             }
 
             override fun onAnimationEnd(animation: Animation?) {
+
                 //if Location's Permission is not accepted
+
                 if(!isLocationPermissionGranted())
                 {
                     //Request the permission
+
                     requestLocationPermission()
                 }
                 else{
                     //When is accepted
+
                     startActivity(intent)
                     finish()
 
@@ -68,19 +71,23 @@ class SplashArtActivity : AppCompatActivity() {
 
     private fun requestLocationPermission(){
         if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
+
             //Rejected
+
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Permission Location").setMessage("Go to settings and accept location permissions")
                 .setNeutralButton("Ok"){dialogInterface, it -> finish() }
                 .setCancelable(false).show()
 
-            //Toast.makeText(this,"Go to settings and accept location permissions", Toast.LENGTH_LONG).show()
+        }
+        else{
 
-        }else{
             //First Time
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                REQUEST_CODE_LOCATION
-            )
+
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_CODE_LOCATION)
+
         }
     }
 
@@ -107,12 +114,11 @@ class SplashArtActivity : AppCompatActivity() {
             else{
 
                 //If request Code is not accepted
+
                 val builder = AlertDialog.Builder(this)
                 builder.setTitle("Permission Location").setMessage("Go to settings and accept location permissions")
                     .setNeutralButton("Ok"){dialogInterface, it -> finish()}
                     .setCancelable(false).show()
-
-                //Toast.makeText(this,"Go to settings and accept location permissions", Toast.LENGTH_LONG).show()
 
             }
             else -> {}
