@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         //Setup Main Activity
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
-        Toast.makeText(this,"You can activate your GPS", Toast.LENGTH_LONG).show()
+        Toast.makeText(this,"Puedes activar tu GPS", Toast.LENGTH_LONG).show()
         setContentView(view)
         setupNavigation()
     }

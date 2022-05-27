@@ -84,7 +84,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
         val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
         val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
         if(!isConnected)
-            Toast.makeText(thisContext, "You cannot complete this action without internet",
+            Toast.makeText(thisContext, "No puedes completar esta accion sin internet",
                 Toast.LENGTH_LONG).show()
 
         return view
@@ -153,7 +153,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                     )
                 } as BitmapDrawable
 
-                snippet = listCashiers[i].Date + " Not empty"
+                snippet = listCashiers[i].Date + " No esta vacio"
 
             }
             else{
@@ -165,7 +165,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                     )
                 } as BitmapDrawable
 
-                snippet = listCashiers[i].Date + " Empty"
+                snippet = listCashiers[i].Date + " Vacio"
             }
 
             val smallMarker = Bitmap.createScaledBitmap(bitmapDraw.bitmap, 100,
@@ -196,16 +196,15 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
     override fun onMarkerClick(googleMap: Marker): Boolean {
         //Show info windows and center the camera in the marker
-
-        thisGoogleMap.animateCamera(CameraUpdateFactory.newLatLng(googleMap.position))
-        googleMap.showInfoWindow()
+            thisGoogleMap.animateCamera(CameraUpdateFactory.newLatLng(googleMap.position))
+            googleMap.showInfoWindow()
 
         return true
     }
 
     override fun onMyLocationClick(location: Location) {
         //Default Location
-        Toast.makeText(thisContext,"Stay in ${location.latitude}, ${location.longitude}",
+        Toast.makeText(thisContext,"Estas en ${location.latitude}, ${location.longitude}",
             Toast.LENGTH_LONG).show()
     }
 
@@ -223,9 +222,9 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
         if(isConnected){
 
             val builder = AlertDialog.Builder(thisContext)
-            builder.setTitle("Is empty?")
-                .setMessage("Are you sure you want to change the status to empty?")
-                .setPositiveButton("Yes") { dialogInterface, it ->
+            builder.setTitle("¿Esta vacio?")
+                .setMessage("¿Estas seguro de cambiar el estado a vacio?")
+                .setPositiveButton("Si") { dialogInterface, it ->
 
                     for (i in listMarkerId) {
 
@@ -244,7 +243,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                                 val formatter = DateTimeFormatter.ofPattern("E dd-MM HH:mm:ss")
                                 val formatted = current.format(formatter)
 
-                                val snippet = "$formatted Empty"
+                                val snippet = "$formatted Vacio"
 
                                 val smallMarker =
                                     Bitmap.createScaledBitmap(bitmapDraw.bitmap,
@@ -257,13 +256,13 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                                 listCashiers[i.id].Money = false
                                 listCashiers[i.id].Date = formatted
 
-                                Toast.makeText(thisContext, "Status changed", Toast.LENGTH_LONG)
+                                Toast.makeText(thisContext, "Estado cambiado", Toast.LENGTH_LONG)
                                     .show()
 
                             } else {
                                 Toast.makeText(
                                     thisContext,
-                                    "The cashier is already empty",
+                                    "El cajero ya esta vacio",
                                     Toast.LENGTH_LONG
                                 ).show()
                             }
@@ -276,7 +275,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                 .setCancelable(false).show()
         }
         else{
-            Toast.makeText(thisContext, "You cannot complete this action without internet",
+            Toast.makeText(thisContext, "No puedes completar esta accion sin internet",
                 Toast.LENGTH_LONG).show()
         }
     }

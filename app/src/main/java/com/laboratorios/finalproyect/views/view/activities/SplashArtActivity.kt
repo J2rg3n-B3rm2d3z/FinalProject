@@ -75,7 +75,7 @@ class SplashArtActivity : AppCompatActivity() {
             //Rejected
 
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Permission Location").setMessage("Go to settings and accept location permissions")
+            builder.setTitle("Permiso de ubicacion").setMessage("Ve a ajuste y acepta los permisos")
                 .setNeutralButton("Ok"){dialogInterface, it -> finish() }
                 .setCancelable(false).show()
 
@@ -116,7 +116,7 @@ class SplashArtActivity : AppCompatActivity() {
                 //If request Code is not accepted
 
                 val builder = AlertDialog.Builder(this)
-                builder.setTitle("Permission Location").setMessage("Go to settings and accept location permissions")
+                builder.setTitle("Permiso de ubicacion").setMessage("Ve a ajuste y acepta los permisos")
                     .setNeutralButton("Ok"){dialogInterface, it -> finish()}
                     .setCancelable(false).show()
 
