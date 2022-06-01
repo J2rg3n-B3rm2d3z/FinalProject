@@ -262,7 +262,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
                                 //Aqui el codigo de para update firebase
 
-                                //jeje
+
 
 
                                 Toast.makeText(thisContext, "Estado cambiado", Toast.LENGTH_LONG)
