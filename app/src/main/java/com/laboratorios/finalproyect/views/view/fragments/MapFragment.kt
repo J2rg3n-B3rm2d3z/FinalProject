@@ -226,11 +226,13 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                 .setMessage("¿Estas seguro de cambiar el estado a vacio?")
                 .setPositiveButton("Si") { dialogInterface, it ->
 
-                    for (i in listMarkerId) {
+                    for (i in listMarkerId) {//Para cada item en la clase creada en la parte inferior
 
-                        if (i.marker == googleMap) {
+                        if (i.marker == googleMap) {//Se compara le marcador para el marcador que se obtuvo como parametro
 
-                            if (listCashiers[i.id].Money) {
+                            if (listCashiers[i.id].Money) {//Si tiene dinero
+
+                                //Configuracion del icono
 
                                 val bitmapDraw = context?.applicationContext?.let {
                                     ContextCompat.getDrawable(
@@ -239,22 +241,29 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                                     )
                                 } as BitmapDrawable
 
-                                val current = LocalDateTime.now()
-                                val formatter = DateTimeFormatter.ofPattern("E dd-MM HH:mm:ss")
-                                val formatted = current.format(formatter)
+                                //Obtener el momento actual
 
-                                val snippet = "$formatted Vacio"
+                                val current = LocalDateTime.now()//Fecha justo en el momento
+                                val formatter = DateTimeFormatter.ofPattern("E dd-MM HH:mm:ss")//Obtener el formato
+                                val formatted = current.format(formatter)//Obtener la fecha actual como String
+
+                                val snippet = "$formatted Vacio"//Se cambia el texto del cuadro
 
                                 val smallMarker =
                                     Bitmap.createScaledBitmap(bitmapDraw.bitmap,
                                         100, 100, false)
 
-                                googleMap.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-                                googleMap.snippet = snippet
+                                googleMap.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker))//Se actualiza el icono
+                                googleMap.snippet = snippet//Se actualiza el snipel
 
 
-                                listCashiers[i.id].Money = false
-                                listCashiers[i.id].Date = formatted
+                                listCashiers[i.id].Money = false//Se cambia el estado en la lista que se tiene en esta mismo fragment
+                                listCashiers[i.id].Date = formatted//Se cambia la fecha en la lista que se tiene en esta mismo fragment
+
+                                //Aqui el codigo de para update firebase
+
+                                //jeje
+
 
                                 Toast.makeText(thisContext, "Estado cambiado", Toast.LENGTH_LONG)
                                     .show()
