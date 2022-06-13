@@ -38,8 +38,5 @@ class MainActivity : AppCompatActivity() {
 
 
 /* Some notes
-
     Validate if connected to the network at moment open the app and get de data in the database
-
-
  */
