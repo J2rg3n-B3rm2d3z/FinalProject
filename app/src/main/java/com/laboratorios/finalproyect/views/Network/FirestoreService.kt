@@ -14,17 +14,15 @@ class FirestoreService {
         firebaseFirestore.firestoreSettings=settings
     }
 
-    fun getBacAtms(callback: Callback <List<Cashier>>){
-        firebaseFirestore.collection(BAC_ATMS).get()
+    fun getBacAtms(callback: Callback <List<Cashier>>) {
+        firebaseFirestore.collection(BAC_ATMS)
+            .get()
             .addOnSuccessListener { result ->
                 for(doc in result) {
                     val list=result.toObjects(Cashier::class.java)
                     callback.onSuccess(list)
                     break
                 }
-            }
-            .addOnFailureListener { exception ->
-                callback.onError(exception.message.toString())
             }
     }
 }

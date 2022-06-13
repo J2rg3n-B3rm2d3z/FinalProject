@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.laboratorios.finalproyect.views.Network.Callback
+import com.laboratorios.finalproyect.views.Network.FirestoreService
 import com.laboratorios.finalproyect.views.models.Cashier
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -25,27 +27,23 @@ class CashierViewModel: ViewModel() {
     //Get a list of Cashier in the zone
     //Change all this to get a the Database in Firestore
 
-
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun getCashiersList(): ArrayList<Cashier> {
-        val db = Firebase.firestore
+     fun getCashiersList(): ArrayList<Cashier> {
+        val firestoreService = FirestoreService()
         val listCashier: ArrayList<Cashier> = ArrayList()
-
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("E dd-MM HH:mm:ss")
         val formatted = current.format(formatter)
+        val isLoading= MutableLiveData<Boolean>()
 
-        db.collection("BAC_ATMS")
-            .get()
-            .addOnSuccessListener { result ->
-
+        firestoreService.getBacAtms(object : Callback<List<Cashier>> {
+            override fun onSuccess(result:List<Cashier>?){
+                listCashier.addAll(result!!)
             }
-
-        /*listCashier.add(Cashier(12.1318496, -86.2698217, "UNI-RUSB",formatted,true))
-        listCashier.add(Cashier(12.1035704, -86.2493089, "Galerias Santo Domingo",formatted,true))
-        listCashier.add(Cashier(12.136939, -86.2241076, "UNI-RUPAP",formatted,true))
-        listCashier.add(Cashier(12.1013463, -86.2959483, "Parque Nacional De Ferias",formatted,true))
-        listCashier.add(Cashier(12.1117465,-86.2760271,"XCAPE",formatted,true))*/
+            override fun onFailed(exception: Exception) {
+                isLoading.value = true
+            }
+        })
 
         return listCashier
     }
