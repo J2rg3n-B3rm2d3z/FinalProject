@@ -5,11 +5,11 @@ import java.io.Serializable
 //Model to use to create a Cashier Object
 
 class Cashier: Serializable{
-    var latitude: Double? = null
-    var longitude: Double? = null
-    var name: String? = null
-    var Date : String? = null
-    var money : Boolean? = null
+    var latitude = Double
+    var longitude = Double
+    var name = String
+    var Date = String
+    var money = Boolean
 }
 
 

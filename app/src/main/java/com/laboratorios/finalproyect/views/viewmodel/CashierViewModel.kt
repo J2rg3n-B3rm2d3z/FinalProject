@@ -41,11 +41,11 @@ class CashierViewModel: ViewModel() {
 
             }
 
-        listCashier.add(Cashier(12.1318496, -86.2698217, "UNI-RUSB",formatted,true))
+        /*listCashier.add(Cashier(12.1318496, -86.2698217, "UNI-RUSB",formatted,true))
         listCashier.add(Cashier(12.1035704, -86.2493089, "Galerias Santo Domingo",formatted,true))
         listCashier.add(Cashier(12.136939, -86.2241076, "UNI-RUPAP",formatted,true))
         listCashier.add(Cashier(12.1013463, -86.2959483, "Parque Nacional De Ferias",formatted,true))
-        listCashier.add(Cashier(12.1117465,-86.2760271,"XCAPE",formatted,true))
+        listCashier.add(Cashier(12.1117465,-86.2760271,"XCAPE",formatted,true))*/
 
         return listCashier
     }
