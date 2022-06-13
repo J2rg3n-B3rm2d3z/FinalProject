@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "882142817373",
+    "project_id": "bekind-aaa93",
+    "storage_bucket": "bekind-aaa93.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:882142817373:android:f0cdfdacc3d07b5959b1b4",
+        "android_client_info": {
+          "package_name": "com.laboratorios.finalproyect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "882142817373-hiiqlvppsr9p5m7joe288qv9cmchbo44.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8E8Aianszi13rb2SnE_daH2kgFuTb0e0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "882142817373-hiiqlvppsr9p5m7joe288qv9cmchbo44.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

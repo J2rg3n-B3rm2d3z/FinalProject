@@ -6,11 +6,13 @@ import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.laboratorios.finalproyect.R
 import com.laboratorios.finalproyect.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    
+
     private lateinit var binding:ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,6 +20,8 @@ class MainActivity : AppCompatActivity() {
         //Setup Main Activity
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
+
+
         Toast.makeText(this,"Puedes activar tu GPS", Toast.LENGTH_LONG).show()
         setContentView(view)
         setupNavigation()
