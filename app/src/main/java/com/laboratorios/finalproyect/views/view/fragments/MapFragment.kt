@@ -167,6 +167,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
             var bitmapDraw:BitmapDrawable
             var snippet:String
 
+            //Cambio pequeno
             //if the cashier have money
 
             if(listCashiers[i].money) {
