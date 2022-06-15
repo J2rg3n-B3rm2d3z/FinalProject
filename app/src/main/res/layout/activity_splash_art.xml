@@ -8,9 +8,10 @@
 
     <ImageView
         android:id="@+id/imgLogo"
+        android:background="@color/Red"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_localizacion"
+        android:src="@drawable/ic_logo"
         android:contentDescription="@string/default_text" />
 
 
