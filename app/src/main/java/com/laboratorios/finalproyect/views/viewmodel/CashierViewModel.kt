@@ -15,10 +15,45 @@ import java.util.*
 
 class CashierViewModel: ViewModel() {
 
-    val cashierList = MutableLiveData<List<Cashier>>()
+    val firestoreService = FirestoreService()
+    //val listArtista : MutableLiveData<List<artista>> = MutableLiveData()
+    val isLoading = MutableLiveData<Boolean>()
+    val cashierList : MutableLiveData<List<Cashier>> = MutableLiveData()
+
+    //Jurgen estuvo aqui
+
+    //Refrescar
+
+    fun refresh(){
+        getScheduleFromFirebase()
+    }
+
+    //Obtener los datos
+
+    private fun getScheduleFromFirebase() {
+        firestoreService.getBacAtms(object: Callback<List<Cashier>>{
+            override fun onSuccess(result: List<Cashier>?) {
+                cashierList.postValue(result)
+                processFinished()
+            }
+
+            override fun onFailed(exception: Exception) {
+                processFinished()
+            }
+        })
+    }
+
+    //Finish process
+
+    fun processFinished (){
+        isLoading.value = true
+    }
+
+    //Aqui ya no estuvo Jurgen*/
 
     //getCashier in LiveData
 
+    /*
     @RequiresApi(Build.VERSION_CODES.O)
     fun getCashiers(){
         cashierList.postValue(getCashiersList())
@@ -26,6 +61,7 @@ class CashierViewModel: ViewModel() {
 
     //Get a list of Cashier in the zone
     //Change all this to get a the Database in Firestore
+
 
     @RequiresApi(Build.VERSION_CODES.O)
      fun getCashiersList(): ArrayList<Cashier> {
@@ -47,6 +83,6 @@ class CashierViewModel: ViewModel() {
 
         return listCashier
     }
-
+       */
 
 }

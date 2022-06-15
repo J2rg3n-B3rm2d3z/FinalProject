@@ -6,8 +6,8 @@ import com.laboratorios.finalproyect.views.models.Cashier
 //The name has to be the same of the physical collection
 const val BAC_ATMS="BAC_ATMS"
 class FirestoreService {
-    val firebaseFirestore = FirebaseFirestore.getInstance()
-    val settings = FirebaseFirestoreSettings.Builder().setPersistenceEnabled(true).build()
+    private val firebaseFirestore = FirebaseFirestore.getInstance()
+    private val settings = FirebaseFirestoreSettings.Builder().setPersistenceEnabled(true).build()
 
     // To get the data offline
     init{

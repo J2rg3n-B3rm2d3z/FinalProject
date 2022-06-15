@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -72,11 +73,17 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
         //ViewModel
 
         cashierViewModel = ViewModelProviders.of(this)[CashierViewModel::class.java]
-        cashierViewModel.getCashiers()
-        cashierViewModel.cashierList.observe(viewLifecycleOwner){
+        cashierViewModel.refresh()
+
+        observeViewModel()
+
+       /* cashierViewModel.cashierList.observe(viewLifecycleOwner, Observer<List<Cashier>>{
             listCashiers.clear()
             listCashiers.addAll(it)
-        }
+            Toast.makeText(thisContext,listCashiers.size.toString() + "B",
+                Toast.LENGTH_LONG).show()
+        })*/
+        //Ver
 
         //validate if connected to internet
 
@@ -87,15 +94,33 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
             Toast.makeText(thisContext, "No puedes completar esta accion sin internet",
                 Toast.LENGTH_LONG).show()
 
+        Toast.makeText(thisContext,listCashiers.size.toString() + "A",
+            Toast.LENGTH_LONG).show()
+
         return view
     }
+
+    private fun observeViewModel() {
+        cashierViewModel.cashierList.observe(viewLifecycleOwner, Observer<List<Cashier>>{
+            listCashiers.clear()
+            listCashiers.addAll(it)
+            Toast.makeText(thisContext,listCashiers.size.toString() + "B",
+                Toast.LENGTH_LONG).show()
+        })
+
+        cashierViewModel.isLoading.observe(viewLifecycleOwner, Observer{
+            if(it!=null){
+                val mapFragment =
+                    childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
+                mapFragment.getMapAsync(this)
+            }
+        })
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mapFragment =
-            childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
-        mapFragment.getMapAsync(this)
     }
 
     override fun onDestroyView() {
@@ -124,7 +149,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
         val zoom = 16f
         //should modification Put a middle camera into all points
-        val centerMap = LatLng(listCashiers[0].latitude, listCashiers[0].longitude)
+        val centerMap = LatLng(listCashiers[0].latitude, listCashiers[0].longitud)
 
         //Setup
 
@@ -134,7 +159,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
         for (i in 0 until listCashiers.size) {
 
-            val centerMark = LatLng(listCashiers[i].latitude, listCashiers[i].longitude)
+            val centerMark = LatLng(listCashiers[0].latitude, listCashiers[0].longitud)
             val markerOptions = MarkerOptions()
             markerOptions.position(centerMark)
             markerOptions.title(listCashiers[i].title)

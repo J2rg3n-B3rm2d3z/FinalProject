@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
 
 
-        Toast.makeText(this,"Puedes activar tu GPS", Toast.LENGTH_LONG).show()
+        //Toast.makeText(this,"Puedes activar tu GPS", Toast.LENGTH_LONG).show()
         setContentView(view)
         setupNavigation()
     }
