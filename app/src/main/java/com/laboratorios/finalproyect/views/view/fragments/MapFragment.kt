@@ -159,7 +159,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
         for (i in 0 until listCashiers.size) {
 
-            val centerMark = LatLng(listCashiers[0].latitude, listCashiers[0].longitud)
+            val centerMark = LatLng(listCashiers[i].latitude, listCashiers[i].longitud)
             val markerOptions = MarkerOptions()
             markerOptions.position(centerMark)
             markerOptions.title(listCashiers[i].title)
