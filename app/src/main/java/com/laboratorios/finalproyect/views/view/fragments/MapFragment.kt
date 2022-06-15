@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -72,11 +73,17 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
         //ViewModel
 
         cashierViewModel = ViewModelProviders.of(this)[CashierViewModel::class.java]
-        cashierViewModel.getCashiers()
-        cashierViewModel.cashierList.observe(viewLifecycleOwner){
+        cashierViewModel.refresh()
+
+        observeViewModel()
+
+       /* cashierViewModel.cashierList.observe(viewLifecycleOwner, Observer<List<Cashier>>{
             listCashiers.clear()
             listCashiers.addAll(it)
-        }
+            Toast.makeText(thisContext,listCashiers.size.toString() + "B",
+                Toast.LENGTH_LONG).show()
+        })*/
+        //Ver
 
         //validate if connected to internet
 
@@ -87,15 +94,33 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
             Toast.makeText(thisContext, "No puedes completar esta accion sin internet",
                 Toast.LENGTH_LONG).show()
 
+        Toast.makeText(thisContext,listCashiers.size.toString() + "A",
+            Toast.LENGTH_LONG).show()
+
         return view
     }
+
+    private fun observeViewModel() {
+        cashierViewModel.cashierList.observe(viewLifecycleOwner, Observer<List<Cashier>>{
+            listCashiers.clear()
+            listCashiers.addAll(it)
+            Toast.makeText(thisContext,listCashiers.size.toString() + "B",
+                Toast.LENGTH_LONG).show()
+        })
+
+        cashierViewModel.isLoading.observe(viewLifecycleOwner, Observer{
+            if(it!=null){
+                val mapFragment =
+                    childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
+                mapFragment.getMapAsync(this)
+            }
+        })
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mapFragment =
-            childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
-        mapFragment.getMapAsync(this)
     }
 
     override fun onDestroyView() {
@@ -124,7 +149,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
         val zoom = 16f
         //should modification Put a middle camera into all points
-        val centerMap = LatLng(listCashiers[0].Latitude, listCashiers[0].Longitude)
+        val centerMap = LatLng(listCashiers[0].latitude, listCashiers[0].longitud)
 
         //Setup
 
@@ -134,17 +159,17 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
         for (i in 0 until listCashiers.size) {
 
-            val centerMark = LatLng(listCashiers[i].Latitude, listCashiers[i].Longitude)
+            val centerMark = LatLng(listCashiers[i].latitude, listCashiers[i].longitud)
             val markerOptions = MarkerOptions()
             markerOptions.position(centerMark)
-            markerOptions.title(listCashiers[i].Title)
+            markerOptions.title(listCashiers[i].title)
 
             var bitmapDraw:BitmapDrawable
             var snippet:String
 
             //if the cashier have money
 
-            if(listCashiers[i].Money) {
+            if(listCashiers[i].money) {
 
                 bitmapDraw = context?.applicationContext?.let {
                     ContextCompat.getDrawable(
@@ -153,7 +178,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                     )
                 } as BitmapDrawable
 
-                snippet = listCashiers[i].Date + " No esta vacio"
+                snippet = listCashiers[i].date + " No esta vacio"
 
             }
             else{
@@ -165,7 +190,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                     )
                 } as BitmapDrawable
 
-                snippet = listCashiers[i].Date + " Vacio"
+                snippet = listCashiers[i].date + " Vacio"
             }
 
             val smallMarker = Bitmap.createScaledBitmap(bitmapDraw.bitmap, 100,
@@ -230,7 +255,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
                         if (i.marker == googleMap) {//Se compara le marcador para el marcador que se obtuvo como parametro
 
-                            if (listCashiers[i.id].Money) {//Si tiene dinero
+                            if (listCashiers[i.id].money) {//Si tiene dinero
 
                                 //Configuracion del icono
 
@@ -257,8 +282,8 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                                 googleMap.snippet = snippet//Se actualiza el snipel
 
 
-                                listCashiers[i.id].Money = false//Se cambia el estado en la lista que se tiene en esta mismo fragment
-                                listCashiers[i.id].Date = formatted//Se cambia la fecha en la lista que se tiene en esta mismo fragment
+                                listCashiers[i.id].money = false//Se cambia el estado en la lista que se tiene en esta mismo fragment
+                                listCashiers[i.id].date = formatted//Se cambia la fecha en la lista que se tiene en esta mismo fragment
 
                                 //Aqui el codigo de para update firebase
 
