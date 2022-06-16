@@ -77,14 +77,6 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
         observeViewModel()
 
-       /* cashierViewModel.cashierList.observe(viewLifecycleOwner, Observer<List<Cashier>>{
-            listCashiers.clear()
-            listCashiers.addAll(it)
-            Toast.makeText(thisContext,listCashiers.size.toString() + "B",
-                Toast.LENGTH_LONG).show()
-        })*/
-        //Ver
-
         //validate if connected to internet
 
         val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -94,18 +86,15 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
             Toast.makeText(thisContext, "No puedes completar esta accion sin internet",
                 Toast.LENGTH_LONG).show()
 
-        Toast.makeText(thisContext,listCashiers.size.toString() + "A",
-            Toast.LENGTH_LONG).show()
-
         return view
     }
+    
+    //Ver
 
     private fun observeViewModel() {
         cashierViewModel.cashierList.observe(viewLifecycleOwner, Observer<List<Cashier>>{
             listCashiers.clear()
             listCashiers.addAll(it)
-            Toast.makeText(thisContext,listCashiers.size.toString() + "B",
-                Toast.LENGTH_LONG).show()
         })
 
         cashierViewModel.isLoading.observe(viewLifecycleOwner, Observer{
@@ -113,6 +102,8 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                 val mapFragment =
                     childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
                 mapFragment.getMapAsync(this)
+                binding.mapFragmentLayout.visibility = View.VISIBLE
+                binding.LoadingIcon.visibility = View.INVISIBLE
             }
         })
     }

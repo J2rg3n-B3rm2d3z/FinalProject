@@ -25,7 +25,8 @@
 
         <activity
             android:name=".views.view.activities.SplashArtActivity"
-            android:exported="true" >
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,7 +36,8 @@
 
         <activity
             android:name=".views.view.activities.MainActivity"
-            android:exported="false">
+            android:exported="false"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
