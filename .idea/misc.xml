@@ -18,8 +18,18 @@
         <entry key="..\:/Users/Jurgen/AndroidStudioProjects/FinalProyect/app/src/main/res/layout/fragment_map.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Jurgen/AndroidStudioProjects/FinalProyect/app/src/main/res/layout/nav_header.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Jurgen/AndroidStudioProjects/FinalProyect/app/src/main/res/menu/menu_items.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/mgabr/Documents/Android/FinalProject/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/mgabr/Documents/Android/FinalProject/app/src/main/res/layout/activity_splash_art.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/mgabr/Documents/Android/FinalProject/app/src/main/res/layout/fragment_help.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/mgabr/Documents/Android/FinalProject/app/src/main/res/layout/fragment_map.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/mgabr/Documents/Android/FinalProject/app/src/main/res/menu/menu_items.xml" value="0.25416666666666665" />
       </map>
     </option>
+  </component>
+  <component name="EntryPointsManager">
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="androidx.annotation.RequiresApi" />
+    </list>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
