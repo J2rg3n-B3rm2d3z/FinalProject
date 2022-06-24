@@ -153,15 +153,15 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
         if(isConnected){
 
             val builder = AlertDialog.Builder(thisContext)
+
             builder.setTitle("¿Esta vacio?")
                 .setMessage("¿Estas seguro de cambiar el estado a vacio?")
-                .setPositiveButton("Si") { dialogInterface, it ->
+                .setPositiveButton("Si") { _, _ ->
 
                     for (i in listMarkerId) {//Para cada item en la clase creada en la parte inferior
 
                         if (i.marker == googleMap) {//Se compara le marcador para el marcador que se obtuvo como parametro
 
-                            // creo que este if tendria que ir antes de la pregunta
                             if (listCashiers[i.id].money) {//Si tiene dinero
 
                                 //Configuracion del icono
@@ -177,8 +177,6 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                                 val current = LocalDateTime.now()//Fecha justo en el momento
                                 val formatter = DateTimeFormatter.ofPattern("E dd-MM HH:mm:ss")//Obtener el formato
                                 val formatted = current.format(formatter)//Obtener la fecha actual como String
-
-                                // NOTA: Si ya esta vacio no deberia de dejar volver a abrir el cuadro
 
 
                                 listCashiers[i.id].money = false//Se cambia el estado en la lista que se tiene en esta mismo fragment
@@ -200,14 +198,10 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                                     date = listCashiers[i.id].date
                                 }
 
-                                // aqui deberia de guardarse el OBJETO :b
-                                //cashierViewModel._cashier = _cashier
-                                //var list: List<Any> = listOf<Any>(1,2,3,"Ajay","Vijay","Prakash")
 
                                 // YA AQUI POR FIN PASO EL OBJETO O ESO ESPERO :v
                                 cashierViewModel.updateData(_cashier)
 
-                                // NOTA: Si ya esta vacio no deberia de dejar volver a abrir el cuadro
 
                                 //val snippet = _cashier.date + "Vacío"
                                 val snippet = "$formatted Vacio"//Se cambia el texto del cuadro
@@ -251,12 +245,8 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
         // obtener hora actual
         val currentTime = LocalTime.now()
 
-        if (currentTime.hour == 8){
-            status = true
-        }
-        else{
-            return false
-        }
+        if (currentTime.hour == 8) status = true
+        else return false
 
         return status
     }
@@ -346,15 +336,6 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                     // se envian los datos a la db actualizados
                     // solo se actualizan los atms que esten vacios
                     cashierViewModel.updateData(_cashier)
-
-                    /*bitmapDraw = context?.applicationContext?.let {
-                        ContextCompat.getDrawable(
-                            it,
-                            R.drawable.ic_localizacion_g
-                        )
-                    } as BitmapDrawable
-
-                    snippet = listCashiers[i].date + " No esta vacío" */
                 }
 
                 bitmapDraw = context?.applicationContext?.let {

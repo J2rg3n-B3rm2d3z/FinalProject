@@ -1,10 +1,13 @@
 package com.laboratorios.finalproyect.views.viewmodel
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.laboratorios.finalproyect.views.Network.Callback
 import com.laboratorios.finalproyect.views.Network.FirestoreService
 import com.laboratorios.finalproyect.views.models.Cashier
+import java.time.LocalTime
 
 class CashierViewModel: ViewModel() {
 
@@ -12,12 +15,7 @@ class CashierViewModel: ViewModel() {
     val isLoading = MutableLiveData<Boolean>()
     //val cashierList : MutableLiveData<List<Cashier>> = MutableLiveData()
 
-    // private para encapsularlas
     var _cashierList : MutableLiveData<List<Cashier>> = MutableLiveData()
-
-    //var _cashier = Cashier()
-
-    //val serializeCasherList : MutableLiveData<List<CashierSerialize>> = MutableLiveData()
 
     //Jurgen estuvo aqui
 
@@ -55,40 +53,14 @@ class CashierViewModel: ViewModel() {
         })
     }
 
-    // creo que aqui tendria que hacer la funcion update
-    // enviar mensaje de TO DO BIEN
-
     private fun updateBacStatus(cashier : Cashier){
         firestoreService.saveData(cashier)
-        //val saveData = firestoreService.saveData(callback)
-        //saveData.addO
     }
 
-    /*private fun updateBacStatus(
-        atmLat : Double,
-        atmLon : Double,
-        atmName : String,
-        bacStatus: Boolean,
-        bacCurrentDate:String,
-        atmInt: String
-    ){
-
-    }*/
-
-
     //Finish process
-
     fun processFinished (){
         isLoading.value = true
     }
-
-    // aqui se inicializan para poder ser utilziadas
-    // y no acceder directamente a la variable
-    /*internal var cashierList:MutableLiveData<List<Cashier>>
-        get() {return _cashierList}
-        set(value) {_cashierList.value}
-       */
-
 
 
 

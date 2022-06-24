@@ -16,23 +16,12 @@ class Cashier  (
     var money:Boolean=true,
     var cashId:String=""
 ) : Serializable {
+    //The simplest way how you can hide sensitive information
+    // is overriding toString
     override fun toString(): String {
         return "$latitude $longitud $title $date $money $cashId"
     }
 }
-
-/*data class Cashier  (
-    var latitude:Double=0.0,
-    var longitud:Double=0.0,
-    var title:String="",
-    var date:String="",
-    var money:Boolean=true,
-    var cashId:String=""
-){
-    override fun toString(): String {
-        return "$latitude $longitud $title $date $money $cashId"
-    }
-}*/
 
 /*class Cashier: Serializable{
     var latitude:Double=0.0
