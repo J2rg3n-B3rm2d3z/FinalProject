@@ -112,12 +112,6 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
         })
     }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -251,8 +245,6 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
         return status
     }
 
-    //TODO
-    // Probar esta onda manana
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onMapReady(googleMap: GoogleMap) {
@@ -279,9 +271,21 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
         thisGoogleMap.isMyLocationEnabled=true //Put my ubication
 
-        val zoom = 16f
+
+        var promLatitude = 0.0
+        var promLongitud = 0.0
+
+        for (i in 0 until listCashiers.size){
+
+            promLatitude += listCashiers[i].latitude
+            promLongitud += listCashiers[i].longitud
+
+        }
+
+        val zoom = 13f
         //should modification Put a middle camera into all points
-        val centerMap = LatLng(listCashiers[0].latitude, listCashiers[0].longitud)
+
+        val centerMap = LatLng(promLatitude/listCashiers.size, promLongitud/listCashiers.size)
 
         //Setup
 
@@ -363,14 +367,6 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
         thisGoogleMap.setOnMarkerClickListener(this)
         thisGoogleMap.setOnMyLocationClickListener(this)
         thisGoogleMap.setOnInfoWindowClickListener(this)
-
-        //json Styles
-        thisGoogleMap.setMapStyle(
-            MapStyleOptions.loadRawResourceStyle(
-                requireContext(),
-                R.raw.map_style
-            )
-        )
 
     }
 
