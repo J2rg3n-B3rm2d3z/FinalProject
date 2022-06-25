@@ -242,6 +242,24 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
         if (currentTime.hour == 8) status = true
         else return false
 
+        //Logica de como se podria actualizar los datos de los cajeros para el dia siguiente
+
+        /*
+        Diadehoy = hoyfechaPredeterminada
+        DiadeManana = Diadehoy + 1
+
+        if(DiadeManana < LocalTime.now()){
+
+            Diadehoy = LocalTime.now()
+            DiadeManana = Diadehoy + 1
+
+            //Se guarda el dato de dia de hoy en un la base de datos creo nose
+            //y se lee para verificar si comple la condicion
+            //Se tiene que actualizar todos los cajeros a verde jeje
+
+        }*/
+
+
         return status
     }
 
