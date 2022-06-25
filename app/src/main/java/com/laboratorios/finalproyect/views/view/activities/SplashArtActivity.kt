@@ -28,7 +28,9 @@ class SplashArtActivity : AppCompatActivity() {
 
         val animlogo = AnimationUtils.loadAnimation(this, R.anim.animation)
         val imgLogo: ImageView = findViewById(R.id.imgLogo)
+        val imgLogoBanco: ImageView = findViewById(R.id.imgLogoBanc)
         imgLogo.startAnimation(animlogo)
+        imgLogoBanco.startAnimation(animlogo)
 
         //Control the actions in the animation
 

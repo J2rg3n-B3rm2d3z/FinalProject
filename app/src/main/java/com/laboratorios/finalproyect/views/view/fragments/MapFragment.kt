@@ -174,7 +174,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                 bitmapDraw = context?.applicationContext?.let {
                     ContextCompat.getDrawable(
                         it,
-                        R.drawable.ic_localizacion_g
+                        R.drawable.ic_logo_green
                     )
                 } as BitmapDrawable
 
@@ -186,7 +186,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                 bitmapDraw = context?.applicationContext?.let {
                     ContextCompat.getDrawable(
                         it,
-                        R.drawable.ic_localizacion_r
+                        R.drawable.ic_logo
                     )
                 } as BitmapDrawable
 
@@ -262,7 +262,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                                 val bitmapDraw = context?.applicationContext?.let {
                                     ContextCompat.getDrawable(
                                         it,
-                                        R.drawable.ic_localizacion_r
+                                        R.drawable.ic_logo
                                     )
                                 } as BitmapDrawable
 
