@@ -4,21 +4,18 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.laboratorios.finalproyect.views.Network.Callback
 import com.laboratorios.finalproyect.views.Network.FirestoreService
 import com.laboratorios.finalproyect.views.models.Cashier
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
+import java.time.LocalTime
 
 class CashierViewModel: ViewModel() {
 
-    val firestoreService = FirestoreService()
-    //val listArtista : MutableLiveData<List<artista>> = MutableLiveData()
+    private val firestoreService = FirestoreService()
     val isLoading = MutableLiveData<Boolean>()
-    val cashierList : MutableLiveData<List<Cashier>> = MutableLiveData()
+    //val cashierList : MutableLiveData<List<Cashier>> = MutableLiveData()
+
+    var _cashierList : MutableLiveData<List<Cashier>> = MutableLiveData()
 
     //Jurgen estuvo aqui
 
@@ -28,26 +25,44 @@ class CashierViewModel: ViewModel() {
         getScheduleFromFirebase()
     }
 
-    //Obtener los datos
+    fun updateData(cashier: Cashier){
+        updateBacStatus(cashier)
+    }
 
+    //Obtener los datos de la db
     private fun getScheduleFromFirebase() {
         firestoreService.getBacAtms(object: Callback<List<Cashier>>{
+
+            // si los datos se cargaron
             override fun onSuccess(result: List<Cashier>?) {
-                cashierList.postValue(result)
+                // guarda todos los datos obtenidos del query en la lista
+                // que es de tipo mutable
+
+                // aqui tambien se guardaran cada uno de los ids obtenidos
+                // de cada coleccion
+                // se guardan los datos en la lista de tipo mutable
+                _cashierList.postValue(result)
+
                 processFinished()
             }
 
+            // en caso de falle
             override fun onFailed(exception: Exception) {
                 processFinished()
             }
         })
     }
 
-    //Finish process
+    private fun updateBacStatus(cashier : Cashier){
+        firestoreService.saveData(cashier)
+    }
 
+    //Finish process
     fun processFinished (){
         isLoading.value = true
     }
+
+
 
     //Aqui ya no estuvo Jurgen*/
 
