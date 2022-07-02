@@ -10,8 +10,23 @@
         android:id="@+id/imgLogo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_localizacion"
-        android:contentDescription="@string/default_text" />
+        android:background="@color/Grey"
+        android:contentDescription="@string/default_text"
+        android:src="@drawable/ic_logo2"
+        tools:layout_editor_absoluteX="-48dp"
+        tools:layout_editor_absoluteY="-133dp" />
+
+    <ImageView
+        android:id="@+id/imgLogoBanc"
+        android:layout_width="368dp"
+        android:layout_height="41dp"
+        android:layout_marginBottom="56dp"
+        android:contentDescription="@string/default_text"
+        android:src="@drawable/ic_bac_credomatic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -120,12 +120,6 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
         })
     }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -177,7 +171,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                                 val bitmapDraw = context?.applicationContext?.let {
                                     ContextCompat.getDrawable(
                                         it,
-                                        R.drawable.ic_localizacion_r
+                                        R.drawable.ic_logo
                                     )
                                 } as BitmapDrawable
 
@@ -256,11 +250,27 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
         if (currentTime.hour == 8) status = true
         else return false
 
+        //Logica de como se podria actualizar los datos de los cajeros para el dia siguiente
+
+        /*
+        Diadehoy = hoyfechaPredeterminada
+        DiadeManana = Diadehoy + 1
+
+        if(DiadeManana < LocalTime.now()){
+
+            Diadehoy = LocalTime.now()
+            DiadeManana = Diadehoy + 1
+
+            //Se guarda el dato de dia de hoy en un la base de datos creo nose
+            //y se lee para verificar si comple la condicion
+            //Se tiene que actualizar todos los cajeros a verde jeje
+
+        }*/
+
+
         return status
     }
 
-    //TODO
-    // Probar esta onda manana
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onMapReady(googleMap: GoogleMap) {
@@ -287,9 +297,21 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
         thisGoogleMap.isMyLocationEnabled=true //Put my ubication
 
-        val zoom = 16f
+
+        var promLatitude = 0.0
+        var promLongitud = 0.0
+
+        for (i in 0 until listCashiers.size){
+
+            promLatitude += listCashiers[i].latitude
+            promLongitud += listCashiers[i].longitud
+
+        }
+
+        val zoom = 13f
         //should modification Put a middle camera into all points
-        val centerMap = LatLng(listCashiers[0].latitude, listCashiers[0].longitud)
+
+        val centerMap = LatLng(promLatitude/listCashiers.size, promLongitud/listCashiers.size)
 
         //Setup
 
@@ -315,7 +337,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                 bitmapDraw = context?.applicationContext?.let {
                     ContextCompat.getDrawable(
                         it,
-                        R.drawable.ic_localizacion_g
+                        R.drawable.ic_logo_green
                     )
                 } as BitmapDrawable
 
@@ -351,7 +373,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                 bitmapDraw = context?.applicationContext?.let {
                     ContextCompat.getDrawable(
                         it,
-                        R.drawable.ic_localizacion_r
+                        R.drawable.ic_logo
                     )
                 } as BitmapDrawable
 
@@ -373,14 +395,6 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
         thisGoogleMap.setOnMarkerClickListener(this)
         thisGoogleMap.setOnMyLocationClickListener(this)
         thisGoogleMap.setOnInfoWindowClickListener(this)
-
-        //json Styles
-        thisGoogleMap.setMapStyle(
-            MapStyleOptions.loadRawResourceStyle(
-                requireContext(),
-                R.raw.map_style
-            )
-        )
 
     }
 
