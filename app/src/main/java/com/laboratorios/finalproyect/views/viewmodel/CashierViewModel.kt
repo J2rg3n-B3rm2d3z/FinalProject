@@ -1,13 +1,12 @@
 package com.laboratorios.finalproyect.views.viewmodel
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.laboratorios.finalproyect.views.Network.Callback
 import com.laboratorios.finalproyect.views.Network.FirestoreService
 import com.laboratorios.finalproyect.views.models.Cashier
-import java.time.LocalTime
+
 
 class CashierViewModel: ViewModel() {
 

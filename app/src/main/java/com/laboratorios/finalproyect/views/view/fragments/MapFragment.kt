@@ -89,6 +89,8 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
             Toast.makeText(thisContext, "No puedes completar esta accion sin internet",
                 Toast.LENGTH_LONG).show()
 
+
+
         return view
     }
     
@@ -96,6 +98,8 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
     // observa si los datos han cambiado en la db para volver a cargarlos (creo que es eso)
     private fun observeViewModel() {
+
+
         cashierViewModel._cashierList.observe(viewLifecycleOwner, Observer<List<Cashier>>{
             listCashiers.clear()
             listCashiers.addAll(it)
@@ -204,6 +208,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                                     Bitmap.createScaledBitmap(bitmapDraw.bitmap,
                                         100, 100, false)
 
+
                                 googleMap.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker))//Se actualiza el icono
                                 googleMap.snippet = snippet//Se actualiza el snipel
 
@@ -241,24 +246,6 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
         if (currentTime.hour == 8) status = true
         else return false
-
-        //Logica de como se podria actualizar los datos de los cajeros para el dia siguiente
-
-        /*
-        Diadehoy = hoyfechaPredeterminada
-        DiadeManana = Diadehoy + 1
-
-        if(DiadeManana < LocalTime.now()){
-
-            Diadehoy = LocalTime.now()
-            DiadeManana = Diadehoy + 1
-
-            //Se guarda el dato de dia de hoy en un la base de datos creo nose
-            //y se lee para verificar si comple la condicion
-            //Se tiene que actualizar todos los cajeros a verde jeje
-
-        }*/
-
 
         return status
     }
