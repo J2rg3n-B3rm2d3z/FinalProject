@@ -4,10 +4,15 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.laboratorios.finalproyect.views.Network.Callback
 import com.laboratorios.finalproyect.views.Network.FirestoreService
 import com.laboratorios.finalproyect.views.models.Cashier
+import com.laboratorios.finalproyect.views.models.DailyWorker
 import java.time.LocalTime
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 class CashierViewModel: ViewModel() {
 
@@ -29,20 +34,17 @@ class CashierViewModel: ViewModel() {
         updateBacStatus(cashier)
     }
 
+    fun dailyWorkUpdate(){
+        loadInteraction()
+    }
+
     //Obtener los datos de la db
     private fun getScheduleFromFirebase() {
         firestoreService.getBacAtms(object: Callback<List<Cashier>>{
 
             // si los datos se cargaron
             override fun onSuccess(result: List<Cashier>?) {
-                // guarda todos los datos obtenidos del query en la lista
-                // que es de tipo mutable
-
-                // aqui tambien se guardaran cada uno de los ids obtenidos
-                // de cada coleccion
-                // se guardan los datos en la lista de tipo mutable
                 _cashierList.postValue(result)
-
                 processFinished()
             }
 
@@ -55,6 +57,32 @@ class CashierViewModel: ViewModel() {
 
     private fun updateBacStatus(cashier : Cashier){
         firestoreService.saveData(cashier)
+    }
+
+    private fun loadInteraction(){
+        val currentDate = Calendar.getInstance()
+        val dueDate = Calendar.getInstance()
+
+        // establecer hora de ejecucion a las 8:00:00 AM
+        dueDate.set(Calendar.HOUR_OF_DAY, 8)
+        dueDate.set(Calendar.MINUTE, 0)
+        dueDate.set(Calendar.SECOND, 0)
+
+        // si la hora de ejecucion es antes la hora actual
+        if (dueDate.before(currentDate)){
+            dueDate.add(Calendar.HOUR_OF_DAY, 24)
+        }
+
+        val timeDiff = dueDate.timeInMillis - currentDate.timeInMillis
+
+        val dailyWorkRequest = OneTimeWorkRequestBuilder<DailyWorker>()
+            .setInitialDelay(timeDiff, TimeUnit.MILLISECONDS)
+            .build()
+
+        WorkManager.getInstance().enqueue(dailyWorkRequest)
+
+        // update data at 8AM
+        //cashierViewModel.updateData(cashier)
     }
 
     //Finish process

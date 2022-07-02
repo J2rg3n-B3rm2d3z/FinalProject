@@ -1,8 +1,5 @@
 package com.laboratorios.finalproyect.views.models
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 import java.io.*
-import kotlinx.serialization.encodeToString
 
 //Model to use to create a Cashier Object
 
@@ -22,14 +19,6 @@ class Cashier  (
         return "$latitude $longitud $title $date $money $cashId"
     }
 }
-
-/*class Cashier: Serializable{
-    var latitude:Double=0.0
-    var longitud:Double=0.0
-    var title :String=""
-    var date :String=""
-    var money :Boolean=true
-}*/
 
 
 //data class Cashier(val Latitude: Double, val Longitude: Double,val Title:String, var Date:String, var Money:Boolean)

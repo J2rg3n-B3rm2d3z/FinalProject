@@ -22,6 +22,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -30,10 +32,13 @@ import com.google.android.gms.maps.model.*
 import com.laboratorios.finalproyect.R
 import com.laboratorios.finalproyect.databinding.FragmentMapBinding
 import com.laboratorios.finalproyect.views.models.Cashier
+import com.laboratorios.finalproyect.views.models.DailyWorker
 import com.laboratorios.finalproyect.views.viewmodel.CashierViewModel
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListener,
@@ -73,6 +78,8 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
         val view = binding.root
         thisContext = view.context //GetContext
 
+        cashierViewModel.dailyWorkUpdate()
+
         //ViewModel
 
         cashierViewModel = ViewModelProviders.of(this)[CashierViewModel::class.java]
@@ -88,6 +95,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
         if(!isConnected)
             Toast.makeText(thisContext, "No puedes completar esta accion sin internet",
                 Toast.LENGTH_LONG).show()
+
 
         return view
     }
@@ -316,10 +324,12 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
             }
             else{
 
+                //cashierViewModel.dailyWorkUpdate()
+
                 // sino tiene dinero
 
                 // si son las 8am
-                if (checkHour()){
+                /*if (checkHour()){
 
                     listCashiers[i].money = true
                     listCashiers[i].date = formatted
@@ -336,7 +346,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                     // se envian los datos a la db actualizados
                     // solo se actualizan los atms que esten vacios
                     cashierViewModel.updateData(_cashier)
-                }
+                }*/
 
                 bitmapDraw = context?.applicationContext?.let {
                     ContextCompat.getDrawable(

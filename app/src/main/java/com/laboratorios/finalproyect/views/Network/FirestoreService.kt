@@ -44,9 +44,6 @@ class FirestoreService {
         // obtiene el doc en la db al que se dio click
         val document = firebaseFirestore.collection(BAC_ATMS).document(cashier.cashId)
 
-        //cashier.cashId = document.id
-
-        // AQUIII YA SE SUPONE QUE SE ACTUALIZA LA MIERDAAA
         val setData = document.set(cashier)
         setData.addOnSuccessListener {
             Log.d("Firebase", "document saved")
