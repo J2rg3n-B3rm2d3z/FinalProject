@@ -11,4 +11,5 @@
     <color name = "Grey">#E6E8E7</color>
     <color name = "White_grey">#959595</color>
     <color name="Green">#00FF00</color>
+    <color name="BackgroundDefaultColor">#e6e8e7</color>
 </resources>

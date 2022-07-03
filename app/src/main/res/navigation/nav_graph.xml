@@ -17,6 +17,5 @@
         android:id="@+id/mhelpFragment"
         android:name="com.laboratorios.finalproyect.views.view.fragments.HelpFragment"
         android:label="fragment_help"
-        tools:layout="@layout/fragment_help" >
-    </fragment>
+        tools:layout="@layout/fragment_help" />
 </navigation>

@@ -3,7 +3,6 @@ package com.laboratorios.finalproyect.views.view.fragments
 
 import android.Manifest
 import android.content.Context
-import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -17,10 +16,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -32,15 +29,12 @@ import com.google.android.gms.maps.model.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.laboratorios.finalproyect.R
 import com.laboratorios.finalproyect.databinding.FragmentMapBinding
-import com.laboratorios.finalproyect.views.InfoWindowData
+import com.laboratorios.finalproyect.views.data.InfoWindowData
 import com.laboratorios.finalproyect.views.models.Cashier
 import com.laboratorios.finalproyect.views.view.adapter.InfoWindowAdapter
 import com.laboratorios.finalproyect.views.viewmodel.CashierViewModel
 import java.time.LocalDateTime
-import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-import java.util.*
-import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListener,
@@ -182,7 +176,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
                                 //Obtener el momento actual/fecha actual
                                 val current = LocalDateTime.now()//Fecha justo en el momento
-                                val formatter = DateTimeFormatter.ofPattern("E dd-MM HH:mm:ss")//Obtener el formato
+                                val formatter = DateTimeFormatter.ofPattern("E hh:mm a")//Obtener el formato
                                 val formatted = current.format(formatter)//Obtener la fecha actual como String
 
 
@@ -229,7 +223,6 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                                 )
 
                                 googleMap.tag = info
-
                                 googleMap.showInfoWindow()
 
                             } else {
@@ -261,7 +254,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
         //Obtener el momento actual/fecha actual
         val current = LocalDateTime.now()//Fecha justo en el momento
-        val formatter = DateTimeFormatter.ofPattern("E dd-MM HH:mm:ss")//Obtener el formato
+        val formatter = DateTimeFormatter.ofPattern("E hh:mm a")//Obtener el formato
         val formatted = current.format(formatter)//Obtener la fecha actual como String
 
         thisGoogleMap = googleMap //get the item
@@ -308,8 +301,10 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
             markerOptions.position(centerMark)
             markerOptions.title(listCashiers[i].title)
 
+            //listCashiers[i].date = formatted
+
             var bitmapDraw:BitmapDrawable
-            var snippet:String
+            //var snippet:String
             var cashierStatus:String
 
             //Cambio pequeno
@@ -326,7 +321,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
                 cashierStatus = "Con dinero"
 
-                snippet = "Ult. actualización: " + listCashiers[i].date + "\n" + "Estado: Con dinero"
+                //snippet = "Ult. actualización: " + listCashiers[i].date + "\n" + "Estado: Con dinero"
 
             }
             else{
@@ -340,7 +335,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
                 cashierStatus = "Sin dinero"
 
-                snippet = "Ult. actualización: " + listCashiers[i].date + "\n" + "Estado: Sin dinero"
+                //snippet = "Ult. actualización: " + listCashiers[i].date + "\n" + "Estado: Sin dinero"
             }
 
             val smallMarker = Bitmap.createScaledBitmap(bitmapDraw.bitmap, 80,
@@ -348,7 +343,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker))//Set icon
 
-            markerOptions.snippet(snippet)//this is the windows information
+            markerOptions.snippet("snippet")//this is the windows information
 
             var info = InfoWindowData(
                 listCashiers[i].title,

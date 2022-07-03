@@ -1,4 +1,4 @@
-package com.laboratorios.finalproyect.views
+package com.laboratorios.finalproyect.views.data
 
 data class InfoWindowData(
     val title :String,

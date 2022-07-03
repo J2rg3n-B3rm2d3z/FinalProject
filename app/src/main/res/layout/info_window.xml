@@ -58,7 +58,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ultima actualización: "
+                android:text="Última actualización: "
                 android:textColor="@color/White_grey"
                 android:textSize="15dp"/>\
 

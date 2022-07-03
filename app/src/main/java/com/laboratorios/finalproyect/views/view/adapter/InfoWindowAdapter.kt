@@ -4,12 +4,10 @@ import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
-import androidx.compose.ui.layout.Layout
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 import com.laboratorios.finalproyect.databinding.InfoWindowBinding
-import com.laboratorios.finalproyect.views.InfoWindowData
-import kotlin.math.min
+import com.laboratorios.finalproyect.views.data.InfoWindowData
 
 class InfoWindowAdapter(context: Context) : GoogleMap.InfoWindowAdapter {
 
@@ -35,7 +33,6 @@ class InfoWindowAdapter(context: Context) : GoogleMap.InfoWindowAdapter {
         }
 
         binding.txtCashierStatus.text = status
-
         binding.txtLastUpdate.text = mInfoWindow?.lastUpdate
 
         return binding.root
