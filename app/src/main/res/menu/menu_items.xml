@@ -3,6 +3,7 @@
         <item
             android:id="@+id/mmapFragment"
             android:title="@string/map"
+            android:state_active="true"
             android:icon="@drawable/ic_map"/>
         <item
             android:id="@+id/mhelpFragment"

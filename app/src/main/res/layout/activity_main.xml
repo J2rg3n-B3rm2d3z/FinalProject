@@ -30,7 +30,9 @@
             android:id="@+id/bttmNavMenu"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/White_grey"
+            android:background="@color/white"
+            app:itemIconTint="@drawable/selector"
+            app:itemTextColor="@drawable/selector"
             app:menu="@menu/menu_items">
 
         </com.google.android.material.bottomnavigation.BottomNavigationView>

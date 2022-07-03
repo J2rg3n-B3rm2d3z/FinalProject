@@ -3,6 +3,7 @@ package com.laboratorios.finalproyect.views.view.fragments
 
 import android.Manifest
 import android.content.Context
+import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -19,20 +20,21 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.laboratorios.finalproyect.R
 import com.laboratorios.finalproyect.databinding.FragmentMapBinding
+import com.laboratorios.finalproyect.views.InfoWindowData
 import com.laboratorios.finalproyect.views.models.Cashier
-import com.laboratorios.finalproyect.views.models.DailyWorker
+import com.laboratorios.finalproyect.views.view.adapter.InfoWindowAdapter
 import com.laboratorios.finalproyect.views.viewmodel.CashierViewModel
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -65,6 +67,8 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
     private val _cashier = Cashier()
 
+    private var infoWindowAdapter: InfoWindowAdapter ?= null
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -78,7 +82,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
         val view = binding.root
         thisContext = view.context //GetContext
 
-        cashierViewModel.dailyWorkUpdate()
+        //cashierViewModel.dailyWorkUpdate()
 
         //ViewModel
 
@@ -104,7 +108,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
     // observa si los datos han cambiado en la db para volver a cargarlos (creo que es eso)
     private fun observeViewModel() {
-        cashierViewModel._cashierList.observe(viewLifecycleOwner, Observer<List<Cashier>>{
+        cashierViewModel._cashierList.observe(viewLifecycleOwner, Observer {
             listCashiers.clear()
             listCashiers.addAll(it)
         })
@@ -146,6 +150,8 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
         //Change the state of Cashier to Empty
 
+        //googleMap.hideInfoWindow()
+
         val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
         val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
@@ -154,11 +160,11 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
         if(isConnected){
 
-            val builder = AlertDialog.Builder(thisContext)
+            val builder = MaterialAlertDialogBuilder(thisContext, R.style.MyThemeOverlay_MaterialAlertDialog)
 
-            builder.setTitle("¿Esta vacio?")
-                .setMessage("¿Estas seguro de cambiar el estado a vacio?")
-                .setPositiveButton("Si") { _, _ ->
+                builder.setTitle("¿Está vacío?")
+                    .setMessage("¿Actualizar estado?")
+                    .setPositiveButton("Sí") {_, _ ->
 
                     for (i in listMarkerId) {//Para cada item en la clase creada en la parte inferior
 
@@ -167,7 +173,6 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                             if (listCashiers[i.id].money) {//Si tiene dinero
 
                                 //Configuracion del icono
-
                                 val bitmapDraw = context?.applicationContext?.let {
                                     ContextCompat.getDrawable(
                                         it,
@@ -206,22 +211,31 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
 
                                 //val snippet = _cashier.date + "Vacío"
-                                val snippet = "$formatted Vacio"//Se cambia el texto del cuadro
+                                val snippet = "Ult. actualización: $formatted \n Estado: Sin dinero"//Se cambia el texto del cuadro
 
                                 val smallMarker =
                                     Bitmap.createScaledBitmap(bitmapDraw.bitmap,
-                                        100, 100, false)
+                                        80, 80, false)
 
                                 googleMap.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker))//Se actualiza el icono
-                                googleMap.snippet = snippet//Se actualiza el snipel
+                                googleMap.snippet = snippet //Se actualiza el snipel
 
-                                /*Toast.makeText(thisContext, "Estado cambiado", Toast.LENGTH_LONG)
-                                    .show()*/
+                                var cashierStatus = "Sin dinero"
+
+                                var info = InfoWindowData(
+                                    listCashiers[i.id].title,
+                                    cashierStatus,
+                                    listCashiers[i.id].date
+                                )
+
+                                googleMap.tag = info
+
+                                googleMap.showInfoWindow()
 
                             } else {
                                 Toast.makeText(
                                     thisContext,
-                                    "El cajero ya esta vacio",
+                                    "El cajero ya esta vacío",
                                     Toast.LENGTH_LONG
                                 ).show()
                             }
@@ -230,47 +244,15 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                         }
                     }
                 }
-                .setNegativeButton("No") { dialogInterface, it -> }
-                .setCancelable(false).show()
+                .setNegativeButton("No") { _, _ -> }
+                .setCancelable(false)
+                .show()
         }
         else{
-            Toast.makeText(thisContext, "No puedes completar esta accion sin internet",
+            Toast.makeText(thisContext, "No puedes completar esta acción sin internet",
                 Toast.LENGTH_LONG).show()
         }
     }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun checkHour() : Boolean {
-
-        val status : Boolean
-
-        // obtener hora actual
-        val currentTime = LocalTime.now()
-
-        if (currentTime.hour == 8) status = true
-        else return false
-
-        //Logica de como se podria actualizar los datos de los cajeros para el dia siguiente
-
-        /*
-        Diadehoy = hoyfechaPredeterminada
-        DiadeManana = Diadehoy + 1
-
-        if(DiadeManana < LocalTime.now()){
-
-            Diadehoy = LocalTime.now()
-            DiadeManana = Diadehoy + 1
-
-            //Se guarda el dato de dia de hoy en un la base de datos creo nose
-            //y se lee para verificar si comple la condicion
-            //Se tiene que actualizar todos los cajeros a verde jeje
-
-        }*/
-
-
-        return status
-    }
-
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onMapReady(googleMap: GoogleMap) {
@@ -328,6 +310,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
             var bitmapDraw:BitmapDrawable
             var snippet:String
+            var cashierStatus:String
 
             //Cambio pequeno
             //if the cashier have money
@@ -341,34 +324,12 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                     )
                 } as BitmapDrawable
 
-                snippet = listCashiers[i].date + " No esta vacío"
+                cashierStatus = "Con dinero"
+
+                snippet = "Ult. actualización: " + listCashiers[i].date + "\n" + "Estado: Con dinero"
 
             }
             else{
-
-                //cashierViewModel.dailyWorkUpdate()
-
-                // sino tiene dinero
-
-                // si son las 8am
-                /*if (checkHour()){
-
-                    listCashiers[i].money = true
-                    listCashiers[i].date = formatted
-
-                    _cashier.apply {
-                        cashId = listCashiers[i].cashId
-                        longitud = listCashiers[i].longitud
-                        latitude = listCashiers[i].latitude
-                        title = listCashiers[i].title
-                        date = listCashiers[i].date
-                        money = listCashiers[i].money
-                    }
-
-                    // se envian los datos a la db actualizados
-                    // solo se actualizan los atms que esten vacios
-                    cashierViewModel.updateData(_cashier)
-                }*/
 
                 bitmapDraw = context?.applicationContext?.let {
                     ContextCompat.getDrawable(
@@ -377,17 +338,33 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                     )
                 } as BitmapDrawable
 
-                snippet = listCashiers[i].date + " Vacío"
+                cashierStatus = "Sin dinero"
+
+                snippet = "Ult. actualización: " + listCashiers[i].date + "\n" + "Estado: Sin dinero"
             }
 
-            val smallMarker = Bitmap.createScaledBitmap(bitmapDraw.bitmap, 100,
-                100, false)
+            val smallMarker = Bitmap.createScaledBitmap(bitmapDraw.bitmap, 80,
+                80, false)
+
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker))//Set icon
 
             markerOptions.snippet(snippet)//this is the windows information
 
-            googleMap.addMarker(markerOptions)?.let { MarkerAndId(it,i) } ?.let { listMarkerId.add(it) }
+            var info = InfoWindowData(
+                listCashiers[i].title,
+                cashierStatus,
+                listCashiers[i].date
+            )
+
+            var customInfoWindow = InfoWindowAdapter(thisContext)
+
+            googleMap.setInfoWindowAdapter(customInfoWindow)
+
+            val marker = googleMap.addMarker(markerOptions)
+            marker?.let { MarkerAndId(it,i) } ?.let { listMarkerId.add(it) }
             //add the marker and the Id item-cashier in de listMarkerId to get a connexion
+
+            marker?.tag = info
 
         }
 
@@ -395,9 +372,9 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
         thisGoogleMap.setOnMarkerClickListener(this)
         thisGoogleMap.setOnMyLocationClickListener(this)
         thisGoogleMap.setOnInfoWindowClickListener(this)
+        //thisGoogleMap.setOnInfoWindowCloseListener(this)
 
     }
-
 }
 
 //Dataclass to use in the connection with Cashiers to Marker
