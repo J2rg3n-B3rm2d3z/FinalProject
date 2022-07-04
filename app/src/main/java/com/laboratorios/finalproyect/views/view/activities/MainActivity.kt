@@ -46,8 +46,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun startAlarm(calendar: Calendar) {
         val alarmManager:AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+
         val intent:Intent = Intent(this,AlertReceiver::class.java)
-        val pending:PendingIntent = PendingIntent.getBroadcast(this,1,intent,0)
+        var pending:PendingIntent? = null
+
+        pending = if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S)
+            PendingIntent.getBroadcast(this,1,intent,PendingIntent.FLAG_MUTABLE)
+        else
+            PendingIntent.getBroadcast(this,1,intent,PendingIntent.FLAG_IMMUTABLE)
+
 
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pending)
     }
