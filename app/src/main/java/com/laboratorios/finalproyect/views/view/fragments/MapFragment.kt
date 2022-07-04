@@ -34,6 +34,7 @@ import com.laboratorios.finalproyect.views.models.Cashier
 import com.laboratorios.finalproyect.views.view.adapter.InfoWindowAdapter
 import com.laboratorios.finalproyect.views.viewmodel.CashierViewModel
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import kotlin.collections.ArrayList
 
@@ -94,7 +95,6 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
             Toast.makeText(thisContext, "No puedes completar esta accion sin internet",
                 Toast.LENGTH_LONG).show()
 
-
         return view
     }
     
@@ -102,7 +102,8 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
     // observa si los datos han cambiado en la db para volver a cargarlos (creo que es eso)
     private fun observeViewModel() {
-        cashierViewModel._cashierList.observe(viewLifecycleOwner, Observer {
+
+        cashierViewModel._cashierList.observe(viewLifecycleOwner, Observer<List<Cashier>>{
             listCashiers.clear()
             listCashiers.addAll(it)
         })
@@ -211,6 +212,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                                     Bitmap.createScaledBitmap(bitmapDraw.bitmap,
                                         80, 80, false)
 
+
                                 googleMap.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker))//Se actualiza el icono
                                 googleMap.snippet = snippet //Se actualiza el snipel
 
@@ -246,6 +248,21 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                 Toast.LENGTH_LONG).show()
         }
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun checkHour() : Boolean {
+
+        val status : Boolean
+
+        // obtener hora actual
+        val currentTime = LocalTime.now()
+
+        if (currentTime.hour == 8) status = true
+        else return false
+
+        return status
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onMapReady(googleMap: GoogleMap) {

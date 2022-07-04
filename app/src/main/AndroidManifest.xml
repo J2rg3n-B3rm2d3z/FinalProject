@@ -33,7 +33,11 @@
         <activity
             android:name=".views.view.activities.MainActivity"
             android:exported="false"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
+
+        <receiver android:name=".views.AlertReceiver"/>
+
     </application>
 
 </manifest>

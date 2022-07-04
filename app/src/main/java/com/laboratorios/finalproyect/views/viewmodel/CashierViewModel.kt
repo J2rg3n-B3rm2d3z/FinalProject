@@ -1,12 +1,12 @@
 package com.laboratorios.finalproyect.views.viewmodel
 
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.laboratorios.finalproyect.views.Network.Callback
 import com.laboratorios.finalproyect.views.Network.FirestoreService
 import com.laboratorios.finalproyect.views.models.Cashier
-import java.util.*
-import java.util.concurrent.TimeUnit
+
 
 class CashierViewModel: ViewModel() {
 
@@ -34,7 +34,7 @@ class CashierViewModel: ViewModel() {
 
             // si los datos se cargaron
             override fun onSuccess(result: List<Cashier>?) {
-                _cashierList.postValue(result)
+                _cashierList.postValue(result!!)
                 processFinished()
             }
 
