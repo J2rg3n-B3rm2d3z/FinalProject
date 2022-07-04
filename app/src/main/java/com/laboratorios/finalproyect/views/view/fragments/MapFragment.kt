@@ -249,20 +249,6 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun checkHour() : Boolean {
-
-        val status : Boolean
-
-        // obtener hora actual
-        val currentTime = LocalTime.now()
-
-        if (currentTime.hour == 8) status = true
-        else return false
-
-        return status
-    }
-
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onMapReady(googleMap: GoogleMap) {
