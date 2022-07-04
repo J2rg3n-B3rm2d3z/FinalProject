@@ -15,7 +15,7 @@ import com.laboratorios.finalproyect.R
 
 class SplashArtActivity : AppCompatActivity() {
 
-    //Value to use to request Permission
+
     companion object{
         const val REQUEST_CODE_LOCATION = 0
     }
@@ -24,7 +24,7 @@ class SplashArtActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_art)
 
-        //Animation Splash Screen
+      
 
         val animlogo = AnimationUtils.loadAnimation(this, R.anim.animation)
         val imgLogo: ImageView = findViewById(R.id.imgLogo)
@@ -32,7 +32,7 @@ class SplashArtActivity : AppCompatActivity() {
         imgLogo.startAnimation(animlogo)
         imgLogoBanco.startAnimation(animlogo)
 
-        //Control the actions in the animation
+
 
         val intent = Intent(this, MainActivity::class.java)
         animlogo.setAnimationListener(object : Animation.AnimationListener {
@@ -41,16 +41,16 @@ class SplashArtActivity : AppCompatActivity() {
 
             override fun onAnimationEnd(animation: Animation?) {
 
-                //if Location's Permission is not accepted
+
 
                 if(!isLocationPermissionGranted())
                 {
-                    //Request the permission
+
 
                     requestLocationPermission()
                 }
                 else{
-                    //When is accepted
+
 
                     startActivity(intent)
                     finish()
@@ -63,18 +63,18 @@ class SplashArtActivity : AppCompatActivity() {
         })
     }
 
-    //Verification permission
+
 
     private fun isLocationPermissionGranted() =
         ContextCompat.checkSelfPermission(this,
             Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED
 
-    //Request the Permission
+
 
     private fun requestLocationPermission(){
         if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
 
-            //Rejected
+
 
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Permiso de ubicacion").setMessage("Ve a ajuste y acepta los permisos")
@@ -84,7 +84,7 @@ class SplashArtActivity : AppCompatActivity() {
         }
         else{
 
-            //First Time
+
 
             ActivityCompat.requestPermissions(this,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),

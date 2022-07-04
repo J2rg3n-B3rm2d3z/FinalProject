@@ -12,13 +12,9 @@ class CashierViewModel: ViewModel() {
 
     private val firestoreService = FirestoreService()
     val isLoading = MutableLiveData<Boolean>()
-    //val cashierList : MutableLiveData<List<Cashier>> = MutableLiveData()
+
 
     var _cashierList : MutableLiveData<List<Cashier>> = MutableLiveData()
-
-    //Jurgen estuvo aqui
-
-    //Refrescar
 
     fun refresh(){
         getScheduleFromFirebase()
@@ -28,17 +24,15 @@ class CashierViewModel: ViewModel() {
         updateBacStatus(cashier)
     }
 
-    //Obtener los datos de la db
+
     private fun getScheduleFromFirebase() {
         firestoreService.getBacAtms(object: Callback<List<Cashier>>{
 
-            // si los datos se cargaron
             override fun onSuccess(result: List<Cashier>?) {
                 _cashierList.postValue(result!!)
                 processFinished()
             }
 
-            // en caso de falle
             override fun onFailed(exception: Exception) {
                 processFinished()
             }
@@ -49,7 +43,6 @@ class CashierViewModel: ViewModel() {
         firestoreService.saveData(cashier)
     }
 
-    //Finish process
     fun processFinished (){
         isLoading.value = true
     }

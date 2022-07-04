@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //Setup Main Activity
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
 
@@ -30,9 +30,6 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this,"Puedes activar tu GPS", Toast.LENGTH_LONG).show()
         setContentView(view)
         setupNavigation()
-
-        //Intentar crear una actualizacion de los cajeros ccon AlarmManager
-
 
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.HOUR_OF_DAY,8)
@@ -57,14 +54,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupNavigation()
     {
-        //Navigation controller
+
         val menuItems: BottomNavigationView = findViewById(R.id.bttmNavMenu)
         NavigationUI.setupWithNavController(menuItems,
             Navigation.findNavController(this, R.id.frg_nav))
     }
 }
-
-
-/* Some notes
-    Validate if connected to the network at moment open the app and get de data in the database
- */

@@ -260,6 +260,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
         val formatter = DateTimeFormatter.ofPattern("E hh:mm a")//Obtener el formato
         val formatted = current.format(formatter)//Obtener la fecha actual como String
 
+        googleMap.clear()
         thisGoogleMap = googleMap //get the item
 
         if (ActivityCompat.checkSelfPermission(

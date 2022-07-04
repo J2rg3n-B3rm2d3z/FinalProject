@@ -13,7 +13,6 @@ import me.relex.circleindicator.CircleIndicator3
 
 class HelpFragment : Fragment() {
 
-    //private lateinit var viewPager2: ViewPager2
     private var titleList = mutableListOf<String>()
     private var descriptionList = mutableListOf<String>()
     private var imageList = mutableListOf<Int>()
