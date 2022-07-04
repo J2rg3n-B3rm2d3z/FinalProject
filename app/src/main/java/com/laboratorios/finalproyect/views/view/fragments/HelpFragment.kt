@@ -53,7 +53,7 @@ class HelpFragment : Fragment() {
         addToLists("Ver estado del cajero", "Haz click en el cajero para ver el estado", R.drawable.img1)
         addToLists("Ver información del cajero", "Visualiza el estado actual y hora de actualización", R.drawable.img5)
         addToLists("Actualiza estado del cajero", "Haz click en la ventana de infomación", R.drawable.img2)
-        addToLists("Guarda cambios", "Presiona 'Sí' para actualizar el estado del cajero", R.drawable.img3)
+        addToLists("Guarda cambios", "Presiona ' Sí ' para actualizar el estado del cajero", R.drawable.img3)
         addToLists("Ver cambios", " Estado actualizado", R.drawable.img4)
     }
 }
