@@ -5,14 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".views.view.fragments.HelpFragment"
-    android:background="@color/BackgroundDefaultColor">
+    android:background="@color/white">
 
     <me.relex.circleindicator.CircleIndicator3
+        app:ci_drawable="@drawable/circle_indicator"
+        app:ci_drawable_unselected="@drawable/circle_indicator_unselected"
         android:id="@+id/indicator"
         android:layout_width="match_parent"
         android:layout_height="25dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/BackgroundDefaultColor"/>
+        android:background="@color/white"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpager"

@@ -22,6 +22,8 @@
         <entry key="..\:/Users/Jurgen/AndroidStudioProjects/FinalProyect/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.274" />
         <entry key="..\:/Users/mgabr/Documents/Android/FinalProject/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.198" />
         <entry key="..\:/Users/mgabr/Documents/Android/FinalProject/app/src/main/res/drawable/alert_dialog_bg.xml" value="0.1" />
+        <entry key="..\:/Users/mgabr/Documents/Android/FinalProject/app/src/main/res/drawable/circle_indicator.xml" value="0.2585" />
+        <entry key="..\:/Users/mgabr/Documents/Android/FinalProject/app/src/main/res/drawable/circle_indicator_unselected.xml" value="0.2315" />
         <entry key="..\:/Users/mgabr/Documents/Android/FinalProject/app/src/main/res/drawable/ic_default.xml" value="0.256" />
         <entry key="..\:/Users/mgabr/Documents/Android/FinalProject/app/src/main/res/drawable/ic_help.xml" value="0.256" />
         <entry key="..\:/Users/mgabr/Documents/Android/FinalProject/app/src/main/res/drawable/ic_launcher_background.xml" value="0.256" />
@@ -35,7 +37,7 @@
         <entry key="..\:/Users/mgabr/Documents/Android/FinalProject/app/src/main/res/layout/fragment_map.xml" value="0.19010416666666666" />
         <entry key="..\:/Users/mgabr/Documents/Android/FinalProject/app/src/main/res/layout/image_container.xml" value="0.365625" />
         <entry key="..\:/Users/mgabr/Documents/Android/FinalProject/app/src/main/res/layout/info_window.xml" value="0.365625" />
-        <entry key="..\:/Users/mgabr/Documents/Android/FinalProject/app/src/main/res/layout/page_view.xml" value="0.253125" />
+        <entry key="..\:/Users/mgabr/Documents/Android/FinalProject/app/src/main/res/layout/page_view.xml" value="0.34782608695652173" />
         <entry key="..\:/Users/mgabr/Documents/Android/FinalProject/app/src/main/res/menu/menu_items.xml" value="0.19010416666666666" />
         <entry key="..\:/Users/mgabr/Documents/Android/FinalProject/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1965" />
         <entry key="..\:/Users/mgabr/Documents/Android/FinalProject/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.198" />
