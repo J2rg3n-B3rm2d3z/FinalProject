@@ -22,6 +22,7 @@ class FirestoreService {
             .get()
             .addOnSuccessListener { result ->
                 for(doc in result) {
+
                     val list=result.toObjects(Cashier::class.java)
                     callback.onSuccess(list)
                     break
