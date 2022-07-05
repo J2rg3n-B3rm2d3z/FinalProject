@@ -210,7 +210,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
 
                                 val smallMarker =
                                     Bitmap.createScaledBitmap(bitmapDraw.bitmap,
-                                        80, 80, false)
+                                        40, 40, false)
 
 
                                 googleMap.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker))//Se actualiza el icono
@@ -342,8 +342,8 @@ class MapFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListen
                 //snippet = "Ult. actualización: " + listCashiers[i].date + "\n" + "Estado: Sin dinero"
             }
 
-            val smallMarker = Bitmap.createScaledBitmap(bitmapDraw.bitmap, 80,
-                80, false)
+            val smallMarker = Bitmap.createScaledBitmap(bitmapDraw.bitmap, 40,
+                40, false)
 
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker))//Set icon
 
