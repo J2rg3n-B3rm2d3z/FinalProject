@@ -8,20 +8,22 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="50dp">
 
         <ImageView
-            android:background="@color/white"
+
             android:id="@+id/helpPageImage"
             android:layout_width="wrap_content"
             android:layout_height="435dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/white"
             android:clickable="false"
             android:focusable="true"
             android:foreground="?selectableItemBackground"
-            android:src="@drawable/image1"
-            android:layout_gravity="center"/>
+            android:src="@drawable/image1" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -31,16 +33,15 @@
             android:layout_marginTop="9dp"
             android:text="Title"
             android:textColor="#6354af"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <View
             android:layout_width="200dp"
+            android:layout_height="0.5dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="3dp"
-            android:layout_height="0.5dp"
-            android:background="#aba3d4">
-        </View>
+            android:background="#aba3d4" />
 
         <TextView
             android:id="@+id/tvDescription"
@@ -48,10 +49,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
+            android:layout_weight="1"
             android:text="Description"
             android:textAlignment="center"
             android:textColor="#6354af"
-            android:textSize="14sp" />
+            android:textSize="17sp" />
 
     </LinearLayout>
 
