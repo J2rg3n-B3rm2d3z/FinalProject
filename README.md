@@ -1,7 +1,7 @@
 # BeKind
-
 is a practical, versatile and collaborative application
 between users, in which they show the nearby ATMs from where they are, also indicating if they are empty or not, to facilitate the choice of the ATM to be going to use and avoid a possible trip to one that does not have money.
+
 ![](https://github.com/J2rg3n-B3rm2d3z/FinalProject/blob/master/assets/splashScreen.png?raw=true)
 ## Why?
 You have had to go to an ATM and run into the bad
