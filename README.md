@@ -17,7 +17,7 @@ exists BeKind
 
 # Tecnologies used
 ![](https://github.com/J2rg3n-B3rm2d3z/FinalProject/blob/master/assets/technologies%20used.png?raw=true)
-#Tutorial 
+# Tutorial 
 ### 1. Open app
 ![](https://github.com/J2rg3n-B3rm2d3z/FinalProject/blob/master/assets/mainScreen.png?raw=true)
 ### 2. Select Atm
